@@ -4,7 +4,7 @@
 struct node
 {
 	int data;
-	struct node *next;	
+	struct node *next;
 
 };
 
@@ -16,16 +16,20 @@ void deletebeg(node** head);
 void deletelast(node** head);
 void travel(node* head);
 void travelreverse(node* head);
+int count(node* head);
 int insertdata();
+void insertn(node **head,int n);
+void deleten(node **head,int n);
 node* createnode(int d);
 
 
-main()
+int main()
 {
 	char ch[2];
+	int x;
 	int n;
 	node* head=NULL;
-	
+
 	do
 	{
 		printf("Enter your choice :\n");
@@ -36,6 +40,8 @@ main()
 		printf("5.Delete last\n");
 		printf("6.travel\n");
 		printf("7.travel in reverse order \n");
+		printf("8.Insert at nth position \n");
+		printf("9.Delete at nth position \n");
 		scanf("%d",&n);
 		switch(n)
 		{
@@ -53,13 +59,25 @@ main()
 				break;
 			case 7:travelreverse(head);
 				break;
-			default: printf("Wrong input!!");
+			case 8:
+                    printf("Enter value of n:");
+                    scanf("%d",&x);
+                    insertn(&head,x);
+                    break;
+			case 9:
+                    printf("Enter value of n:");
+                    scanf("%d",&x);
+                    deleten(&head,x);
+                    break;
+ 			default: printf("Wrong input!!");
 
 
 		}
 	printf("\t\t\tdo you want to continue?(y/n):");
-	scanf("%s",ch);	
+	scanf("%s",ch);
 	}while(ch[0]=='y');
+
+	return 0;
 
 }
 int insertdata()
@@ -86,7 +104,7 @@ void insertbeg(node** head)
 {
 	node* temp=createnode(insertdata());
 	temp->next=(*head);
-	(*head)=temp;	
+	(*head)=temp;
 
 }
 void insertlast(node** head)
@@ -99,7 +117,7 @@ void insertlast(node** head)
 		node* temp=(*head);
 		while(temp->next!=NULL)
 			temp=temp->next;
-		
+
 		temp->next=createnode(insertdata());
 	}
 
@@ -119,9 +137,9 @@ void deletebeg(node** head)
 }
 void deletelast(node** head)
 {
-	if((*head)==NULL)	
+	if((*head)==NULL)
 		printf("List is empty");
-	
+
 	else if((*head)->next==NULL)
 		{
 			node* temp=(*head);
@@ -134,10 +152,10 @@ void deletelast(node** head)
 		node* temp=(*head);
 		node* prev;
 		while(temp->next!=NULL)
-		{	
+		{
 			prev=temp;
 			temp=temp->next;
-		
+
 		}
 		prev->next=NULL;
 		free(temp);
@@ -147,7 +165,7 @@ void travel(node* head)
 {
 	printf("\nOUTPUT\n");
 	if(head==NULL)
-		printf("linkedlist empty;");	
+		printf("linkedlist empty;");
 	else
 		while(head!=NULL)
 		{
@@ -161,7 +179,7 @@ void travelreverse(node *head)
 	if(head==NULL)
 		return;
 	else
-           {	
+           {
 
 		travelreverse(head->next);
 		printf(" %d ",head->data);
@@ -177,19 +195,23 @@ void insertn(node **head,int n)
 	{
 		printf("List is empty");
 		return;
-	}	
-			
+	}
+	else if(count(*head)<n)
+	{
+		printf("invalid value");
+		return;
+	}
 	else if(n==1)
 		insertbeg(&(*head));
 	else
 	{
 		node* temp=(*head);
-		node* prev=temp;	
+		node* prev=temp;
 		while(temp->next!=NULL && --n)
-			{	
+			{
 				prev=temp;
 				temp=temp->next;
-			
+
 			}
 		prev->next=createnode(insertdata());
 		(prev->next)->next=temp;
@@ -203,25 +225,38 @@ void deleten(node **head,int n)
 	{
 		printf("List is empty");
 		return;
-	}	
-			
+	}
+	else if(count(*head)<n)
+	{
+		printf("invalid value");
+		return;
+	}
 	else if(n==1)
 		deletebeg(&(*head));
 	else
 	{
 		node* temp=(*head);
-		node* prev=temp;	
+		node* prev=temp;
 		while(--n)
-			{	
-				while(temp->next!=NULL) 
-					{
-						prev=temp;
-						temp=temp->next;
-					}
+			{
+				prev=temp;
+				temp=temp->next;
+
 			}
-		prev->next=createnode(insertdata());
-		(prev->next)->next=temp;
+		prev->next=temp->next;
+		free(temp);
 
 	}
+}
+int count(node* head)
+{
+	int c=0;
+	while(head!=NULL)
+		{
+			c++;
+			head=head->next;
+		}
+
+	return c;
 }
 
