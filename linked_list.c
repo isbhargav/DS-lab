@@ -16,6 +16,7 @@ void deletebeg(node** head);
 void deletelast(node** head);
 void travel(node* head);
 void travelreverse(node* head);
+void reverselink_list(node** head);
 int count(node* head);
 int insertdata();
 void insertn(node **head,int n);
@@ -42,6 +43,7 @@ int main()
 		printf("7.travel in reverse order \n");
 		printf("8.Insert at nth position \n");
 		printf("9.Delete at nth position \n");
+		printf("10.reverselink_list \n");
 		scanf("%d",&n);
 		switch(n)
 		{
@@ -68,7 +70,9 @@ int main()
                     printf("Enter value of n:");
                     scanf("%d",&x);
                     deleten(&head,x);
-                    break;
+										break;
+				 case 10: reverselink_list(&head);
+			             break;
  			default: printf("Wrong input!!");
 
 
@@ -259,4 +263,27 @@ int count(node* head)
 
 	return c;
 }
-
+void reverselink_list(node**head)
+{
+				node* curr=(*head);
+				node *prev=NULL;
+				node* next=NULL;
+				if(*head == NULL)
+				{
+								printf("Empty linked list!!");
+								return;
+				}
+				else if(*head==NULL)
+								return;
+				else					
+				while(curr->next!=NULL)
+				{
+								next=curr->next;
+								curr->next=prev;
+								prev=curr;
+								curr=next;
+				}
+				curr->next=prev;
+				prev=curr;
+				(*head)=prev;
+}
