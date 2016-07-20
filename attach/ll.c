@@ -1,89 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
-
-struct node
-{
-	int data;
-	struct node *next;
-
-};
-
-typedef struct node node;
-
-void insertbeg(node** head);
-void insertlast(node** head);
-void deletebeg(node** head);
-void deletelast(node** head);
-void travel(node* head);
-void travelreverse(node* head);
-void reverselink_list(node** head);
-int count(node* head);
-int insertdata();
-void insertn(node **head,int n);
-void deleten(node **head,int n);
-node* createnode(int d);
+#include "ll.h"
 
 
-int main()
-{
-	char ch[2];
-	int x;
-	int n;
-	node* head=NULL;
-
-	do
-	{
-		printf("Enter your choice :\n");
-		printf("1.create empty linked list\n");
-		printf("2.Insert first\n");
-		printf("3.Insert last\n");
-		printf("4.Delete first\n");
-		printf("5.Delete last\n");
-		printf("6.travel\n");
-		printf("7.travel in reverse order \n");
-		printf("8.Insert at nth position \n");
-		printf("9.Delete at nth position \n");
-		printf("10.reverselink_list \n");
-		scanf("%d",&n);
-		switch(n)
-		{
-			case 1:	head=NULL;
-				break;
-			case 2: insertbeg(&head);
-				break;
-			case 3: insertlast(&head);
-				break;
-			case 4: deletebeg(&head);
-				break;
-			case 5:deletelast(&head);
-				break;
-			case 6:travel(head);
-				break;
-			case 7:travelreverse(head);
-				break;
-			case 8:
-                    printf("Enter value of n:");
-                    scanf("%d",&x);
-                    insertn(&head,x);
-                    break;
-			case 9:
-                    printf("Enter value of n:");
-                    scanf("%d",&x);
-                    deleten(&head,x);
-										break;
-				 case 10: reverselink_list(&head);
-			             break;
- 			default: printf("Wrong input!!");
-
-
-		}
-	printf("\t\t\tdo you want to continue?(y/n):");
-	scanf("%s",ch);
-	}while(ch[0]=='y');
-
-	return 0;
-
-}
 int insertdata()
 {
 	int d;
@@ -263,27 +182,51 @@ int count(node* head)
 
 	return c;
 }
-void reverselink_list(node**head)
+
+//stack functions
+
+stack* create_empty_stack()
 {
-				node* curr=(*head);
-				node *prev=NULL;
-				node* next=NULL;
-				if(*head == NULL)
-				{
-								printf("Empty linked list!!");
-								return;
-				}
-				else if(*head==NULL)
-								return;
-				else					
-				while(curr->next!=NULL)
-				{
-								next=curr->next;
-								curr->next=prev;
-								prev=curr;
-								curr=next;
-				}
-				curr->next=prev;
-				prev=curr;
-				(*head)=prev;
+	stack* s=(stack*)malloc(sizeof(stack));
+	s->head=NULL;
+	return s;
 }
+
+int enterdata()
+{
+	int d;
+	printf("Enter data: ");
+	scanf("%d",&d);
+	return d;
+}
+
+void push(stack** s)
+{
+   insertlast(&((*s)->head));
+}
+void pop(stack** s)
+{
+	deletelast(&((*s)->head));
+}
+int peek(stack** s)
+{
+	
+	node* temp=(*s)->head;
+	if((*s)->head==NULL)
+	{
+			printf("stack empty;");
+		return -999;
+	}
+	
+	else
+	{
+		
+		while(temp->next!=NULL)
+		{
+			temp=temp->next;
+		}
+		printf(" %d ",temp->data);
+		return temp->data;
+	}
+}
+
