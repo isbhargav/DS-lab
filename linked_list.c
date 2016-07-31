@@ -23,6 +23,7 @@ void insertn(node **head,int n);
 void deleten(node **head,int n);
 node* createnode(int d);
 node* reverse(node* head);
+int floydcycle(node* head)
 
 int main()
 {
@@ -289,12 +290,28 @@ void reverselink_list(node**head)
 }
 node* reverse(node* head)
 {
-				
+				if(head==NULL)
+						return NULL;
 				if(head->next==NULL)
 						return head;
 				node* secondele=head->next;
 				head->next=NULL;
 				node* q=reverse(secondele);
-				secondele->next=head;
+				
+				q->next=head;
 				return q;
+}
+int floydcycle(node* head)
+{
+				node* turtle,hare;
+				turtle=hare=head;
+				while(hare && hare->next!=NULL)
+				{
+								hare=hare->next->next;
+								turtle=turtle->next;
+								if(hare==turtle)
+												return 1;
+				}
+				return 0;
+
 }
